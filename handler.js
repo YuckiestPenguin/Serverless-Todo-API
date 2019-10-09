@@ -52,3 +52,17 @@ module.exports.retrieve = (event, context, callback) => {
         })
   ));
 }
+
+module.exports.retrieveAll = (event, context, callback) => {
+  dynamoDb.scan({
+    TableName
+  }, (err, result) => (
+    err ? callback(null, {
+      statusCode: 500,
+      body: JSON.stringify(err.code)
+    }) : callback(null, {
+      statusCode: 200,
+      body: JSON.stringify(result.Items)
+    })
+  ))
+}

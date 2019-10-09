@@ -23,6 +23,7 @@ service: todo
 provider:
   name: aws
   runtime: nodejs10.x
+  stage: dev
   region: us-east-1
   iamRoleStatements:
       - Effect: "Allow"
@@ -106,6 +107,19 @@ functions:
     events:
       - http:
           path: items/{id}
+          method: get
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+  retrieveAll:
+    handler: handler.retrieveAll
+    events:
+      - http:
+          path: items
           method: get
           integration: lambda-proxy
           cors:
