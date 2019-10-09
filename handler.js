@@ -53,6 +53,27 @@ module.exports.retrieve = (event, context, callback) => {
   ));
 }
 
+module.exports.deleteItem = (event, context, callback) => {
+  dynamoDb.delete({
+    TableName,
+    Key: {
+      id: event.pathParameters.id,
+    },
+  }, (err, result) => (
+    err ? callback(null, {
+      statusCode: 500,
+      body: JSON.stringify(err.code),
+    }) : !result ?
+        callback(null, {
+          statusCode: 404,
+          body: JSON.stringify('Item not found'),
+        }) : callback(null, {
+          statusCode: 200,
+          body: JSON.stringify(`Item ${event.pathParameters.id} deleted!`),
+        })
+  ));
+}
+
 module.exports.retrieveAll = (event, context, callback) => {
   dynamoDb.scan({
     TableName

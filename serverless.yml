@@ -128,6 +128,19 @@ functions:
             headers:
               - Content-Type
               - X-Amz-Date
+  deleteItem:
+    handler: handler.deleteItem
+    events:
+      - http:
+          path: items/{id}
+          method: delete
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
